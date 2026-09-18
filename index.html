@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Editor de Mapas Pippi-Man</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">PIPPI-MAN</p>
+      <h1>Editor de Mapas</h1>
+      <p class="subtitle">Monte mapas de 15 colunas × 19 linhas e copie o código pronto para usar.</p>
+    </div>
+    <div class="size-badge" aria-label="Tamanho do mapa">15 × 19</div>
+  </header>
+
+  <main class="page-shell">
+    <section class="toolbar-card" aria-labelledby="titulo-ferramentas">
+      <div class="section-heading">
+        <div>
+          <span class="step">1</span>
+          <h2 id="titulo-ferramentas">Escolha o elemento</h2>
+        </div>
+        <p>Clique ou arraste sobre a grade para desenhar. Pac-Man, fruta e cada fantasma só podem aparecer uma vez.</p>
+      </div>
+
+      <div id="palette" class="palette" role="toolbar" aria-label="Elementos do mapa">
+        <button class="tile-option selected" data-type="wall" data-char="1" type="button">
+          <span class="tile-sample wall"></span>
+          <span><strong>Parede</strong><small>código 1</small></span>
+        </button>
+        <button class="tile-option" data-type="free" data-char="0" type="button">
+          <span class="tile-sample free"></span>
+          <span><strong>Espaço livre</strong><small>código 0</small></span>
+        </button>
+        <button class="tile-option" data-type="dot" data-char="2" type="button">
+          <span class="tile-sample dot"></span>
+          <span><strong>Ponto</strong><small>código 2</small></span>
+        </button>
+        <button class="tile-option" data-type="pacman" data-char="4" type="button">
+          <span class="tile-sample pacman"></span>
+          <span><strong>Pac-Man</strong><small>código 4</small></span>
+        </button>
+        <button class="tile-option" data-type="fruit" data-char="3" type="button">
+          <span class="tile-sample fruit"></span>
+          <span><strong>Fruta</strong><small>código 3</small></span>
+        </button>
+        <button class="tile-option" data-type="empty" data-char="0" type="button">
+          <span class="tile-sample empty"></span>
+          <span><strong>Espaço vazio</strong><small>código 0</small></span>
+        </button>
+        <button class="tile-option" data-type="red" data-char="R" type="button">
+          <span class="tile-sample ghost red"></span>
+          <span><strong>Fantasma vermelho</strong><small>código R</small></span>
+        </button>
+        <button class="tile-option" data-type="blue" data-char="B" type="button">
+          <span class="tile-sample ghost blue"></span>
+          <span><strong>Fantasma azul</strong><small>código B</small></span>
+        </button>
+        <button class="tile-option" data-type="yellow" data-char="Y" type="button">
+          <span class="tile-sample ghost yellow"></span>
+          <span><strong>Fantasma amarelo</strong><small>código Y</small></span>
+        </button>
+        <button class="tile-option" data-type="green" data-char="G" type="button">
+          <span class="tile-sample ghost green"></span>
+          <span><strong>Fantasma verde</strong><small>código G</small></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="workspace-grid">
+      <article class="panel editor-panel">
+        <div class="section-heading compact">
+          <div><span class="step">2</span><h2>Monte a tabela</h2></div>
+          <p id="activeToolText">Selecionado: Parede (1)</p>
+        </div>
+        <div class="grid-wrap">
+          <div id="editorGrid" class="map-grid editor-grid" aria-label="Editor do mapa"></div>
+        </div>
+        <div class="panel-actions">
+          <button id="fillWalls" class="secondary-btn" type="button">Bordas com parede</button>
+          <button id="fillDots" class="secondary-btn" type="button">Preencher pontos</button>
+          <button id="clearMap" class="danger-btn" type="button">Limpar mapa</button>
+        </div>
+      </article>
+
+      <article class="panel preview-panel">
+        <div class="section-heading compact">
+          <div><span class="step">3</span><h2>Prévia do mapa</h2></div>
+          <p>Atualiza automaticamente.</p>
+        </div>
+        <div class="preview-frame">
+          <div id="previewGrid" class="map-grid preview-grid" aria-label="Prévia visual do mapa"></div>
+        </div>
+        <div class="legend">
+          <span><i class="legend-dot wall-legend"></i>Parede</span>
+          <span><i class="legend-dot point-legend"></i>Ponto</span>
+          <span><i class="legend-dot fruit-legend"></i>Fruta</span>
+          <span><i class="legend-dot pac-legend"></i>Pac-Man</span>
+        </div>
+      </article>
+    </section>
+
+    <section class="code-card" aria-labelledby="titulo-codigo">
+      <div class="section-heading">
+        <div><span class="step">4</span><h2 id="titulo-codigo">Código do mapa</h2></div>
+        <p>19 linhas, cada uma com exatamente 15 caracteres.</p>
+      </div>
+
+      <div class="code-layout">
+        <div class="code-box">
+          <div class="code-header"><span>mapa.txt</span><span id="codeStatus">19 × 15</span></div>
+          <pre id="mapCode" aria-live="polite"></pre>
+        </div>
+
+        <aside class="code-help">
+          <h3>Legenda do código</h3>
+          <div class="code-legend">
+            <span><b>0</b> espaço livre / vazio</span>
+            <span><b>1</b> parede</span>
+            <span><b>2</b> ponto</span>
+            <span><b>3</b> fruta</span>
+            <span><b>4</b> pac-man</span>
+            <span><b>R</b> fantasma vermelho</span>
+            <span><b>B</b> fantasma azul</span>
+            <span><b>Y</b> fantasma amarelo</span>
+            <span><b>G</b> fantasma verde</span>
+          </div>
+          <div class="code-buttons">
+            <button id="copyCode" class="primary-btn" type="button">Copiar código</button>
+            <button id="downloadCode" class="secondary-btn" type="button">Baixar .txt</button>
+          </div>
+        </aside>
+      </div>
+
+      <details class="import-box">
+        <summary>Importar um código já existente</summary>
+        <p>Cole 19 linhas com 15 caracteres cada usando 0, 1, 2, 3, 4, R, B, Y ou G.</p>
+        <textarea id="importCode" rows="8" spellcheck="false" placeholder="111111111111111\n122222222222221\n..."></textarea>
+        <button id="applyImport" class="secondary-btn" type="button">Carregar código na grade</button>
+        <span id="importMessage" class="message" aria-live="polite"></span>
+      </details>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
